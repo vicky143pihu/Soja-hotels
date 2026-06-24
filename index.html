@@ -1,13 +1,305 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="hi">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SoJa.in — Chain se so jao</title>
-    <meta name="description" content="India ka sabse aaram-deh hotel booking platform. Chain se so jao, baaki hum dekh lenge." />
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SoJa.in — Chain se so jao</title>
+<meta name="description" content="India ka sabse aaram-deh hotel booking platform."/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;700&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Poppins',sans-serif;background:#0D0D1A;color:#F0EFF8;min-height:100vh;overflow-x:hidden}
+.stars-bg{position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(1px 1px at 10% 15%,rgba(245,200,66,.6) 0%,transparent 100%),radial-gradient(1px 1px at 25% 40%,rgba(240,239,248,.5) 0%,transparent 100%),radial-gradient(1.5px 1.5px at 50% 10%,rgba(240,239,248,.7) 0%,transparent 100%),radial-gradient(1px 1px at 70% 25%,rgba(245,200,66,.4) 0%,transparent 100%),radial-gradient(1px 1px at 85% 8%,rgba(240,239,248,.6) 0%,transparent 100%),radial-gradient(1px 1px at 40% 60%,rgba(167,139,250,.4) 0%,transparent 100%),radial-gradient(1.5px 1.5px at 90% 50%,rgba(240,239,248,.5) 0%,transparent 100%),radial-gradient(1px 1px at 15% 80%,rgba(245,200,66,.3) 0%,transparent 100%),radial-gradient(1px 1px at 60% 90%,rgba(240,239,248,.4) 0%,transparent 100%),radial-gradient(1px 1px at 33% 70%,rgba(167,139,250,.5) 0%,transparent 100%)}
+.navbar{position:sticky;top:0;z-index:100;background:rgba(13,13,26,.92);backdrop-filter:blur(16px);border-bottom:1px solid rgba(245,200,66,.1);padding:0 2rem;height:62px;display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:.5rem;font-size:1.5rem;font-weight:800;color:#F0EFF8}
+.logo-moon{font-size:1.6rem;animation:moonFloat 3s ease-in-out infinite}
+@keyframes moonFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+.logo em{color:#F5C842;font-style:normal}
+.nav-links{display:flex;gap:1.5rem;align-items:center}
+.nav-links a{color:rgba(240,239,248,.55);font-size:.82rem;font-weight:500;text-decoration:none;cursor:pointer;transition:color .2s}
+.nav-links a:hover{color:#F5C842}
+.nav-btn{background:#F5C842;color:#0D0D1A;border:none;border-radius:8px;padding:.4rem 1.1rem;font-size:.82rem;font-weight:700;cursor:pointer}
+.hero{position:relative;z-index:1;min-height:540px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:5rem 1.5rem 7rem;text-align:center}
+.hero-moon{font-size:5rem;margin-bottom:1.2rem;filter:drop-shadow(0 0 30px rgba(245,200,66,.4));animation:moonFloat 4s ease-in-out infinite}
+.hero-eyebrow{font-size:.72rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:#A78BFA;margin-bottom:1rem}
+.hero-title{font-size:clamp(2.5rem,7vw,4.5rem);font-weight:800;line-height:1.1;color:#F0EFF8;margin-bottom:.6rem}
+.hero-title em{color:#F5C842;font-style:normal}
+.hero-tagline{font-size:clamp(1rem,2.5vw,1.3rem);color:rgba(240,239,248,.55);margin-bottom:.5rem;font-family:'Noto Sans Devanagari',sans-serif}
+.hero-sub{color:rgba(240,239,248,.35);font-size:.88rem;margin-bottom:3.5rem}
+.search-card{background:rgba(26,26,53,.95);border:1px solid rgba(245,200,66,.18);border-radius:20px;padding:2rem;width:min(900px,95vw);box-shadow:0 30px 70px rgba(0,0,0,.5);position:relative;z-index:10}
+.search-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr auto;gap:1rem;align-items:end}
+.field label{display:block;font-size:.68rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#A78BFA;margin-bottom:.5rem}
+.field input,.field select{width:100%;background:rgba(13,13,26,.8);border:1.5px solid rgba(167,139,250,.2);border-radius:10px;padding:.75rem 1rem;font-size:.92rem;font-family:'Poppins',sans-serif;color:#F0EFF8;outline:none;transition:border-color .2s}
+.field input::placeholder{color:rgba(240,239,248,.3)}
+.field input:focus,.field select:focus{border-color:#F5C842;box-shadow:0 0 0 3px rgba(245,200,66,.12)}
+.field select option{background:#13132B}
+.btn-search{background:linear-gradient(135deg,#F5C842,#FFE080);color:#0D0D1A;border:none;border-radius:10px;padding:.78rem 1.6rem;font-size:.88rem;font-weight:700;cursor:pointer;white-space:nowrap;height:48px;box-shadow:0 4px 20px rgba(245,200,66,.3);transition:transform .15s}
+.btn-search:hover{transform:translateY(-2px)}
+.results-section{max-width:1120px;margin:4rem auto;padding:0 1.5rem;position:relative;z-index:1}
+.results-header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:.5rem}
+.results-title{font-size:1.6rem;font-weight:700;color:#F0EFF8}
+.results-meta{font-size:.82rem;color:rgba(240,239,248,.55)}
+.hotel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:1.4rem}
+.hotel-card{background:#1A1A35;border:1px solid rgba(167,139,250,.1);border-radius:16px;overflow:hidden;cursor:pointer;transition:transform .2s,border-color .2s,box-shadow .2s}
+.hotel-card:hover{transform:translateY(-5px);border-color:rgba(245,200,66,.3);box-shadow:0 16px 40px rgba(0,0,0,.4)}
+.hotel-thumb{height:170px;display:flex;align-items:center;justify-content:center;font-size:3.5rem;background:linear-gradient(135deg,rgba(13,13,26,.9),rgba(26,26,53,.9));border-bottom:1px solid rgba(167,139,250,.08)}
+.hotel-body{padding:1.2rem}
+.hotel-name{font-size:1.05rem;font-weight:700;color:#F0EFF8;margin-bottom:.3rem;line-height:1.3}
+.hotel-loc{font-size:.76rem;color:#A78BFA;margin-bottom:.6rem}
+.hotel-stars{color:#F5C842;font-size:.78rem;margin-bottom:.7rem}
+.chips{display:flex;flex-wrap:wrap;gap:.3rem;margin-bottom:1rem}
+.chip{background:rgba(167,139,250,.1);color:#A78BFA;border-radius:5px;padding:.18rem .55rem;font-size:.68rem;font-weight:500}
+.hotel-footer{display:flex;align-items:center;justify-content:space-between;padding-top:.9rem;border-top:1px solid rgba(167,139,250,.1)}
+.hotel-price{font-size:1.35rem;font-weight:800;color:#F5C842}
+.hotel-price span{font-size:.72rem;color:rgba(240,239,248,.55);font-weight:400}
+.btn-book{background:rgba(245,200,66,.12);color:#F5C842;border:1px solid rgba(245,200,66,.3);border-radius:8px;padding:.42rem 1rem;font-size:.78rem;font-weight:700;cursor:pointer;transition:background .2s,color .2s}
+.btn-book:hover{background:#F5C842;color:#0D0D1A}
+.loader{display:flex;align-items:center;justify-content:center;gap:.8rem;padding:5rem;color:rgba(240,239,248,.55);font-size:.9rem}
+.spinner{width:24px;height:24px;border:3px solid rgba(245,200,66,.15);border-top-color:#F5C842;border-radius:50%;animation:spin .75s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.empty{text-align:center;padding:5rem 2rem;color:rgba(240,239,248,.55)}
+.empty-icon{font-size:3.5rem;margin-bottom:1rem}
+.empty-title{font-size:1.1rem;font-weight:600;color:#F0EFF8;margin-bottom:.4rem}
+.error-bar{background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.3);color:#F87171;border-radius:10px;padding:.75rem 1rem;font-size:.84rem;margin-bottom:1rem}
+.demo-bar{background:rgba(245,200,66,.07);border:1px solid rgba(245,200,66,.2);color:rgba(245,200,66,.85);border-radius:10px;padding:.6rem 1rem;font-size:.8rem;margin-bottom:1rem}
+.features{border-top:1px solid rgba(167,139,250,.1);border-bottom:1px solid rgba(167,139,250,.1);background:rgba(26,26,53,.4);padding:4rem 1.5rem;position:relative;z-index:1}
+.features-inner{max-width:1120px;margin:0 auto}
+.features-title{font-size:1.7rem;font-weight:700;text-align:center;color:#F0EFF8;margin-bottom:2.5rem}
+.features-title span{color:#F5C842}
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:2rem}
+.feat{text-align:center}
+.feat-icon{font-size:2rem;margin-bottom:.7rem}
+.feat-name{font-weight:700;color:#F0EFF8;margin-bottom:.3rem;font-size:.95rem}
+.feat-desc{color:rgba(240,239,248,.45);font-size:.8rem;line-height:1.65}
+.footer{background:#0A0A18;border-top:1px solid rgba(167,139,250,.08);text-align:center;padding:2rem;font-size:.78rem;color:rgba(240,239,248,.3);position:relative;z-index:1}
+.footer em{color:#F5C842;font-style:normal}
+.overlay{position:fixed;inset:0;background:rgba(5,5,15,.85);backdrop-filter:blur(6px);z-index:200;display:flex;align-items:center;justify-content:center;padding:1rem}
+.modal{background:#13132B;border:1px solid rgba(245,200,66,.15);border-radius:22px;width:min(620px,98vw);max-height:90vh;overflow-y:auto;padding:2.5rem;position:relative;box-shadow:0 40px 80px rgba(0,0,0,.6)}
+.modal-close{position:absolute;top:1.2rem;right:1.2rem;background:rgba(167,139,250,.1);border:none;border-radius:50%;width:36px;height:36px;color:rgba(240,239,248,.55);font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.modal-name{font-size:1.6rem;font-weight:800;color:#F0EFF8;margin-bottom:.3rem}
+.modal-loc{color:#A78BFA;font-size:.82rem;margin-bottom:1.2rem}
+.section-label{font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#A78BFA;margin-bottom:.8rem;margin-top:1.2rem}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
+.f-field{display:flex;flex-direction:column;gap:.35rem}
+.f-field label{font-size:.78rem;font-weight:500;color:rgba(240,239,248,.55)}
+.f-field input{background:rgba(13,13,26,.7);border:1.5px solid rgba(167,139,250,.2);border-radius:9px;padding:.65rem .9rem;font-size:.88rem;font-family:'Poppins',sans-serif;color:#F0EFF8;outline:none;transition:border-color .2s}
+.f-field input::placeholder{color:rgba(240,239,248,.25)}
+.f-field input:focus{border-color:#F5C842}
+.price-box{background:rgba(13,13,26,.6);border:1px solid rgba(167,139,250,.12);border-radius:12px;padding:1.2rem;margin:1.5rem 0}
+.p-row{display:flex;justify-content:space-between;font-size:.84rem;color:rgba(240,239,248,.55);margin-bottom:.5rem}
+.p-total{display:flex;justify-content:space-between;font-size:1.05rem;font-weight:700;color:#F5C842;border-top:1px solid rgba(167,139,250,.15);padding-top:.8rem;margin-top:.5rem}
+.btn-confirm{width:100%;background:linear-gradient(135deg,#F5C842,#FFE080);color:#0D0D1A;border:none;border-radius:12px;padding:1rem;font-size:.98rem;font-weight:800;cursor:pointer;box-shadow:0 4px 20px rgba(245,200,66,.3);transition:transform .15s}
+.btn-confirm:hover{transform:translateY(-2px)}
+.btn-confirm:disabled{opacity:.5;transform:none;cursor:not-allowed}
+.success{text-align:center;padding:1.5rem 0}
+.success-icon{font-size:4rem;margin-bottom:1rem}
+.success-title{font-size:1.8rem;font-weight:800;color:#F0EFF8;margin-bottom:.5rem}
+.success-sub{color:rgba(240,239,248,.55);font-size:.88rem;line-height:1.7}
+.ref-box{background:rgba(245,200,66,.08);border:1px solid rgba(245,200,66,.25);border-radius:12px;padding:1rem 1.5rem;font-size:1.5rem;font-weight:800;color:#F5C842;letter-spacing:.15em;margin:1.2rem 0}
+@media(max-width:680px){.search-grid{grid-template-columns:1fr 1fr}.btn-search{grid-column:span 2;height:44px}.form-grid{grid-template-columns:1fr}.nav-links{display:none}}
+</style>
+</head>
+<body>
+<div class="stars-bg"></div>
+<div id="root"></div>
+<script type="text/babel">
+const {useState} = React;
+
+const EMOJIS = ["🏨","🏰","🌆","🏙️","🌃","🏩","🌴","🗼"];
+const ALL_AMENITIES = ["Free WiFi","Pool","Spa","Gym","Restaurant","Parking","Bar","Room Service","AC","Laundry"];
+
+const DEMO_HOTELS = (city) => [
+  {id:"1",name:"The Grand Raat Palace",loc:city,rating:5,price:9200,emoji:"🏰",amenities:["Free WiFi","Pool","Spa","Restaurant","Gym","Bar","Room Service"]},
+  {id:"2",name:"Neend Inn City Center",loc:city,rating:3,price:1850,emoji:"🏨",amenities:["Free WiFi","Parking","AC","Restaurant"]},
+  {id:"3",name:"Moonlight Suites",loc:city,rating:5,price:14500,emoji:"🌃",amenities:["Free WiFi","Pool","Spa","Gym","Bar","Restaurant","Parking"]},
+  {id:"4",name:"Sukoon Heritage Resort",loc:city,rating:4,price:6100,emoji:"🌴",amenities:["Free WiFi","Pool","Restaurant","Parking","Spa","AC"]},
+  {id:"5",name:"Budget Basera Express",loc:city,rating:2,price:850,emoji:"🏩",amenities:["Free WiFi","Parking","AC"]},
+  {id:"6",name:"Sapno Ka Hotel",loc:city,rating:4,price:5400,emoji:"🌆",amenities:["Free WiFi","Gym","Restaurant","Room Service","Bar","AC"]},
+  {id:"7",name:"Araam Residency",loc:city,rating:3,price:2900,emoji:"🗼",amenities:["Free WiFi","AC","Laundry","Restaurant"]},
+  {id:"8",name:"Star Nights Premium",loc:city,rating:5,price:11800,emoji:"🏙️",amenities:["Free WiFi","Pool","Spa","Bar","Gym","Restaurant","Room Service"]},
+];
+
+const fmt = n => "₹" + Number(n).toLocaleString("en-IN",{maximumFractionDigits:0});
+const nights = (a,b) => Math.max(1,Math.round((new Date(b)-new Date(a))/86400000));
+const stars = n => "★".repeat(n)+"☆".repeat(Math.max(0,5-n));
+const genRef = () => "SJ"+Math.random().toString(36).slice(2,8).toUpperCase();
+
+function App() {
+  const today = new Date().toISOString().split("T")[0];
+  const tomorrow = new Date(Date.now()+86400000).toISOString().split("T")[0];
+  const [city,setCity] = useState("");
+  const [checkIn,setCheckIn] = useState(today);
+  const [checkOut,setCheckOut] = useState(tomorrow);
+  const [guests,setGuests] = useState(1);
+  const [hotels,setHotels] = useState([]);
+  const [loading,setLoading] = useState(false);
+  const [searched,setSearched] = useState(false);
+  const [error,setError] = useState("");
+  const [selected,setSelected] = useState(null);
+  const [form,setForm] = useState({name:"",email:"",phone:""});
+  const [bookingLoading,setBookingLoading] = useState(false);
+  const [confirmed,setConfirmed] = useState(null);
+  const [bookingError,setBookingError] = useState("");
+
+  const nightCount = nights(checkIn,checkOut);
+
+  async function handleSearch() {
+    if(!city.trim()){setError("Shehar ka naam likho yaar 😄");return;}
+    setLoading(true);setError("");setHotels([]);setSearched(false);
+    await new Promise(r=>setTimeout(r,1000));
+    setHotels(DEMO_HOTELS(city.trim()));
+    setSearched(true);setLoading(false);
+  }
+
+  async function handleBook() {
+    if(!form.name||!form.email||!form.phone){setBookingError("Sabhi details bharo bhai 😄");return;}
+    setBookingLoading(true);setBookingError("");
+    await new Promise(r=>setTimeout(r,1600));
+    setConfirmed({ref:genRef(),hotel:selected,guest:form.name});
+    setBookingLoading(false);
+  }
+
+  function closeModal(){setSelected(null);setForm({name:"",email:"",phone:""});setConfirmed(null);setBookingError("");}
+
+  const totalPrice = selected ? selected.price*nightCount*1.18+79 : 0;
+
+  return (
+    <>
+      <nav className="navbar">
+        <div className="logo">
+          <span className="logo-moon">🌙</span>
+          <span>So<em>Ja</em>.in</span>
+        </div>
+        <div className="nav-links">
+          <a>Hotels</a><a>Deals</a><a>Meri Bookings</a>
+          <button className="nav-btn">Login</button>
+        </div>
+      </nav>
+
+      <section className="hero">
+        <div className="hero-moon">🌙</div>
+        <p className="hero-eyebrow">India Ka Sabse Aaram-deh Hotel Platform</p>
+        <h1 className="hero-title">So<em>Ja</em>.in</h1>
+        <p className="hero-tagline">चैन से सो जा — होटल हम ढूंढते हैं</p>
+        <p className="hero-sub">Lakhon hotels · Koi registration nahi · Seedha booking</p>
+        <div className="search-card">
+          {error && <div className="error-bar">⚠️ {error}</div>}
+          <div className="demo-bar">🔑 Demo mode — Real hotels ke liye Amadeus API key lagao.</div>
+          <div className="search-grid">
+            <div className="field">
+              <label>📍 Kahan jaana hai?</label>
+              <input placeholder="Delhi, Goa, Mumbai..." value={city} onChange={e=>setCity(e.target.value)} onKeyDown={e=>e.key==="Enter"&&handleSearch()}/>
+            </div>
+            <div className="field">
+              <label>🌙 Check-in</label>
+              <input type="date" value={checkIn} min={today} onChange={e=>setCheckIn(e.target.value)}/>
+            </div>
+            <div className="field">
+              <label>☀️ Check-out</label>
+              <input type="date" value={checkOut} min={checkIn} onChange={e=>setCheckOut(e.target.value)}/>
+            </div>
+            <div className="field">
+              <label>👤 Guests</label>
+              <select value={guests} onChange={e=>setGuests(Number(e.target.value))}>
+                {[1,2,3,4,5,6].map(n=><option key={n} value={n}>{n} Guest{n>1?"s":""}</option>)}
+              </select>
+            </div>
+            <button className="btn-search" onClick={handleSearch} disabled={loading}>{loading?"⏳":"🔍 Search"}</button>
+          </div>
+        </div>
+      </section>
+
+      <div className="results-section">
+        {loading && <div className="loader"><div className="spinner"/>Hotels dhundhe ja rahe hain... 🌙</div>}
+        {!loading&&searched&&hotels.length===0&&<div className="empty"><div className="empty-icon">🔍</div><div className="empty-title">Koi hotel nahi mila</div></div>}
+        {!loading&&hotels.length>0&&(
+          <>
+            <div className="results-header">
+              <div className="results-title">✨ {hotels.length} Hotels Mile</div>
+              <div className="results-meta">{city} · {nightCount} raat · {guests} guest{guests>1?"s":""}</div>
+            </div>
+            <div className="hotel-grid">
+              {hotels.map(h=>(
+                <div key={h.id} className="hotel-card" onClick={()=>setSelected(h)}>
+                  <div className="hotel-thumb">{h.emoji}</div>
+                  <div className="hotel-body">
+                    <div className="hotel-name">{h.name}</div>
+                    <div className="hotel-loc">📍 {h.loc}</div>
+                    <div className="hotel-stars">{stars(h.rating)}</div>
+                    <div className="chips">{h.amenities.slice(0,3).map(a=><span key={a} className="chip">{a}</span>)}</div>
+                    <div className="hotel-footer">
+                      <div className="hotel-price">{fmt(h.price)}<span>/raat</span></div>
+                      <button className="btn-book" onClick={e=>{e.stopPropagation();setSelected(h);}}>Book Now</button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+        {!searched&&!loading&&<div className="empty"><div className="empty-icon">🌙</div><div className="empty-title">Kahan rukna chahte ho?</div><p>Upar shehar likhkar search karo</p></div>}
+      </div>
+
+      <section className="features">
+        <div className="features-inner">
+          <h2 className="features-title">Kyun <span>SoJa.in</span>?</h2>
+          <div className="features-grid">
+            {[["🌏","Sab Jagah Hotels","India ke kone kone mein"],["💸","Sabse Sasta Rate","No hidden charges"],["⚡","2 Minute Booking","Search karo, book karo, so jao 🌙"],["🔒","100% Secure","Razorpay se safe payment"]].map(([icon,name,desc])=>(
+              <div key={name} className="feat"><div className="feat-icon">{icon}</div><div className="feat-name">{name}</div><div className="feat-desc">{desc}</div></div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <footer className="footer">© 2026 <em>SoJa.in</em> — Chain se so jao, baaki hum dekh lenge 🌙</footer>
+
+      {selected&&(
+        <div className="overlay" onClick={e=>e.target===e.currentTarget&&closeModal()}>
+          <div className="modal">
+            <button className="modal-close" onClick={closeModal}>✕</button>
+            {!confirmed?(
+              <>
+                <div style={{fontSize:"2.5rem",marginBottom:".5rem"}}>{selected.emoji}</div>
+                <div className="modal-name">{selected.name}</div>
+                <div className="modal-loc">📍 {selected.loc} · {stars(selected.rating)}</div>
+                <div className="chips">{selected.amenities.map(a=><span key={a} className="chip">{a}</span>)}</div>
+                {bookingError&&<div className="error-bar">⚠️ {bookingError}</div>}
+                <div className="section-label">Aapki Details</div>
+                <div className="form-grid">
+                  <div className="f-field"><label>Poora Naam</label><input placeholder="Ramesh Kumar" value={form.name} onChange={e=>setForm(f=>({...f,name:e.target.value}))}/></div>
+                  <div className="f-field"><label>Mobile Number</label><input placeholder="98XXXXXXXX" value={form.phone} onChange={e=>setForm(f=>({...f,phone:e.target.value}))}/></div>
+                </div>
+                <div className="f-field"><label>Email Address</label><input placeholder="aap@gmail.com" value={form.email} onChange={e=>setForm(f=>({...f,email:e.target.value}))}/></div>
+                <div className="price-box">
+                  <div className="p-row"><span>Kiraya ({nightCount} raat × {fmt(selected.price)})</span><span>{fmt(selected.price*nightCount)}</span></div>
+                  <div className="p-row"><span>GST (18%)</span><span>{fmt(selected.price*nightCount*.18)}</span></div>
+                  <div className="p-row"><span>SoJa.in Fee</span><span>{fmt(79)}</span></div>
+                  <div className="p-total"><span>Total</span><span>{fmt(totalPrice)}</span></div>
+                </div>
+                <button className="btn-confirm" onClick={handleBook} disabled={bookingLoading}>{bookingLoading?"🌙 Booking Ho Rahi Hai...":"🌙 Confirm Karo — "+fmt(totalPrice)}</button>
+              </>
+            ):(
+              <div className="success">
+                <div className="success-icon">✅</div>
+                <div className="success-title">Ho Gayi Booking!</div>
+                <p className="success-sub">Badhai ho <strong>{confirmed.guest}</strong>!<br/>Ab chain se so jao 🌙</p>
+                <div className="ref-box">{confirmed.ref}</div>
+                <p className="success-sub" style={{fontSize:".78rem"}}>Yeh reference number screenshot le lo.</p>
+                <br/>
+                <button className="btn-confirm" onClick={closeModal}>Aur Book Karo</button>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+</script>
+</body>
 </html>
